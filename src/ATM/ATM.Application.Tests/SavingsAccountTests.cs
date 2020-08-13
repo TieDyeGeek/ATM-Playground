@@ -1,4 +1,6 @@
 using System;
+using System.Threading.Tasks;
+using ATM.Application.Tests.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace ATM.Application.Tests
@@ -8,7 +10,7 @@ namespace ATM.Application.Tests
 	{
 		private SavingsAccount GetSavingsAccount()
 		{
-			return new SavingsAccount();
+			return new SavingsAccount(DatabaseMock.GetProjectRepository(DatabaseMock.GetOptions()));
 		}
 
 		[TestMethod]
@@ -20,71 +22,71 @@ namespace ATM.Application.Tests
 		}
 
 		[TestMethod]
-		public void DepositTest()
+		public async Task DepositTest()
 		{
 			var account = GetSavingsAccount();
 
-			Assert.AreEqual(3.14, account.Deposit(3.14, "Branch on 3rd St."));
-			Assert.AreEqual(140.14, account.Deposit(137, "Branch on 2rd St."));
+			Assert.AreEqual(3.14, await account.Deposit(3.14, "Branch on 3rd St."));
+			Assert.AreEqual(140.14, await account.Deposit(137, "Branch on 2rd St."));
 		}
 
 		[TestMethod]
 		[ExpectedException(typeof(Exception))]
-		public void NegativeDepositTest()
+		public async Task NegativeDepositTest()
 		{
 			var account = GetSavingsAccount();
 
-			account.Deposit(-3.14, "Branch on 3rd St.");
+			await account.Deposit(-3.14, "Branch on 3rd St.");
 		}
 
 		[TestMethod]
-		public void WithdrawTest()
+		public async Task WithdrawTest()
 		{
 			var account = GetSavingsAccount();
-			account.Deposit(100, "test");
+			await account.Deposit(100, "test");
 
-			Assert.AreEqual(40, account.Withdraw(60, "Branch on 3rd St."));
-		}
-
-		[TestMethod]
-		[ExpectedException(typeof(Exception))]
-		public void WithdrawGreaterThanBalanceTest()
-		{
-			var account = GetSavingsAccount();
-			account.Deposit(15, "test");
-
-			account.Withdraw(73, "Branch on 3rd St.");
+			Assert.AreEqual(40, await account.Withdraw(60, "Branch on 3rd St."));
 		}
 
 		[TestMethod]
 		[ExpectedException(typeof(Exception))]
-		public void WithdrawNegativeTest()
+		public async Task WithdrawGreaterThanBalanceTest()
 		{
 			var account = GetSavingsAccount();
+			await account.Deposit(15, "test");
 
-			account.Withdraw(-10, "Branch on 3rd St.");
+			await account.Withdraw(73, "Branch on 3rd St.");
 		}
 
 		[TestMethod]
 		[ExpectedException(typeof(Exception))]
-		public void WithdrawTooMuchIn24HoursInOneLargeTransactionTest()
+		public async Task WithdrawNegativeTest()
 		{
 			var account = GetSavingsAccount();
-			account.Deposit(1000, "Initial deposit");
 
-			account.Withdraw(500.01, "Large Withdraw");
+			await account.Withdraw(-10, "Branch on 3rd St.");
 		}
 
 		[TestMethod]
 		[ExpectedException(typeof(Exception))]
-		public void WithdrawTooMuchIn24HoursInSmallerTransactionsTest()
+		public async Task WithdrawTooMuchIn24HoursInOneLargeTransactionTest()
 		{
 			var account = GetSavingsAccount();
-			account.Deposit(1000, "Initial deposit");
+			await account.Deposit(1000, "Initial deposit");
 
-			account.Withdraw(499, "Almost large withdraw");
-			account.Withdraw(1, "Small withdraw");
-			account.Withdraw(0.01, "Penny withdraw");
+			await account.Withdraw(500.01, "Large Withdraw");
+		}
+
+		[TestMethod]
+		[ExpectedException(typeof(Exception))]
+		public async Task WithdrawTooMuchIn24HoursInSmallerTransactionsTest()
+		{
+			var account = GetSavingsAccount();
+			await account.Deposit(1000, "Initial deposit");
+
+			await account.Withdraw(499, "Almost large withdraw");
+			await account.Withdraw(1, "Small withdraw");
+			await account.Withdraw(0.01, "Penny withdraw");
 		}
 	}
 }

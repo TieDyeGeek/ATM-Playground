@@ -1,4 +1,6 @@
 using System;
+using System.Threading.Tasks;
+using ATM.Application.Tests.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace ATM.Application.Tests
@@ -8,7 +10,7 @@ namespace ATM.Application.Tests
 	{
 		private CheckingAccount GetCheckingAccount()
 		{
-			return new CheckingAccount();
+			return new CheckingAccount(DatabaseMock.GetProjectRepository(DatabaseMock.GetOptions()));
 		}
 
 		[TestMethod]
@@ -20,49 +22,49 @@ namespace ATM.Application.Tests
 		}
 
 		[TestMethod]
-		public void DepositTest()
+		public async Task DepositTest()
 		{
 			var account = GetCheckingAccount();
 
-			Assert.AreEqual(3.14, account.Deposit(3.14, "ATM on 3rd St."));
-			Assert.AreEqual(140.14, account.Deposit(137, "ATM on 2rd St."));
+			Assert.AreEqual(3.14, await account.Deposit(3.14, "ATM on 3rd St."));
+			Assert.AreEqual(140.14, await account.Deposit(137, "ATM on 2rd St."));
 		}
 
 		[TestMethod]
 		[ExpectedException(typeof(Exception))]
-		public void NegativeDepositTest()
+		public async Task NegativeDepositTest()
 		{
 			var account = GetCheckingAccount();
 
-			account.Deposit(-3.14, "ATM on 3rd St.");
+			await account.Deposit(-3.14, "ATM on 3rd St.");
 		}
 
 		[TestMethod]
-		public void WithdrawTest()
+		public async Task WithdrawTest()
 		{
 			var account = GetCheckingAccount();
-			account.Deposit(100, "test");
+			await account.Deposit(100, "test");
 
-			Assert.AreEqual(40, account.Withdraw(60, "ATM on 3rd St."));
-		}
-
-		[TestMethod]
-		[ExpectedException(typeof(Exception))]
-		public void WithdrawGreaterThanBalanceTest()
-		{
-			var account = GetCheckingAccount();
-			account.Deposit(15, "test");
-
-			account.Withdraw(73, "ATM on 3rd St.");
+			Assert.AreEqual(40, await account.Withdraw(60, "ATM on 3rd St."));
 		}
 
 		[TestMethod]
 		[ExpectedException(typeof(Exception))]
-		public void WithdrawNegativeTest()
+		public async Task WithdrawGreaterThanBalanceTest()
+		{
+			var account = GetCheckingAccount();
+			await account.Deposit(15, "test");
+
+			await account.Withdraw(73, "ATM on 3rd St.");
+		}
+
+		[TestMethod]
+		[ExpectedException(typeof(Exception))]
+		public async Task WithdrawNegativeTest()
 		{
 			var account = GetCheckingAccount();
 
-			account.Withdraw(-10, "ATM on 3rd St.");
+			await account.Withdraw(-10, "ATM on 3rd St.");
 		}
 	}
 }

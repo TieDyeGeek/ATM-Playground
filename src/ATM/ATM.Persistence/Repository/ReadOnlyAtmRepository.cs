@@ -3,9 +3,9 @@ using CSESoftware.Repository.EntityFrameworkCore;
 
 namespace ATM.Persistence.Repository
 {
-	public class ReadOnlyAtmRepository : ReadOnlyRepository<DbContext>, IReadOnlyAtmRepository
+	public class ReadOnlyAtmRepository : ReadOnlyRepository<AtmDbContext>, IReadOnlyAtmRepository
 	{
-		public ReadOnlyAtmRepository(DbContext context) : base(context)
+		public ReadOnlyAtmRepository(AtmDbContext context) : base(context)
 		{
 		}
 	}

@@ -1,12 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using ATM.Application.Repository;
 
 namespace ATM.Application
 {
 	public class SavingsAccount : Account
 	{
-		public override double Withdraw(double amount, string description)
+		public SavingsAccount(IAtmRepository repository) : base(repository)
+		{
+		}
+
+		public override async Task<double> Withdraw(double amount, string description)
 		{
 			if (amount > Balance)
 				throw new Exception("Cannot withdraw more than balance");
@@ -15,7 +21,7 @@ namespace ATM.Application
 			if (amountWithdrawnInLast24Hours <= -500)
 				throw new Exception("Cannot withdraw more than $500 in a 24 hour period");
 
-			return base.Withdraw(amount, description);
+			return await base.Withdraw(amount, description);
 		}
 
 		private List<Transaction> GetLast24HoursOfTransactions()
