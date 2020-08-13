@@ -5,12 +5,12 @@ using ATM.Application.Repository;
 
 namespace ATM.Application
 {
-	public class CheckingAccount
+	public class SavingsAccount
 	{
 		private readonly IAtmRepository _repository;
 		private List<Transaction> TransactionHistory { get; }
 
-		public CheckingAccount()//IAtmRepository repository)
+		public SavingsAccount()//IAtmRepository repository)
 		{
 			//_repository = repository;
 			TransactionHistory = new List<Transaction>();
@@ -44,6 +44,10 @@ namespace ATM.Application
 			if (amount <= 0)
 				throw new Exception("Cannot withdraw amount <= 0");
 
+			var amountWithdrawnInLast24Hours = GetLast24HoursOfTransactions().Where(x => x.Amount < 0).Sum(x => x.Amount) - amount;
+			if (amountWithdrawnInLast24Hours <= -500)
+				throw new Exception("Cannot withdraw more than $500 in a 24 hour period");
+
 			AddTransaction(-amount, description);
 			return Balance;
 		}
@@ -75,6 +79,11 @@ namespace ATM.Application
 			//});
 			//
 			//_repository.SaveAsync();
+		}
+
+		private List<Transaction> GetLast24HoursOfTransactions()
+		{
+			return TransactionHistory.Where(x => x.Date >= DateTime.UtcNow.AddDays(-1)).ToList();
 		}
 	}
 }

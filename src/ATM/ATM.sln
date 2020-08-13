@@ -11,6 +11,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ATM.Application", "ATM.Appl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ATM.Persistence.Models", "ATM.Persistence.Models\ATM.Persistence.Models.csproj", "{92C5D0DE-41C5-4965-B639-3A33177E22D6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ATM.Application.Tests", "ATM.Application.Tests\ATM.Application.Tests.csproj", "{A01A4D4C-84E2-4A0A-8B44-2572C79D4BE7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Persistence", "Persistence", "{06D03A3A-9C27-4473-B8B4-3477E35E28BB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Entry", "Entry", "{76AD8111-8CBC-49C8-8FD5-9450ED0CA6AA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,9 +39,19 @@ Global
 		{92C5D0DE-41C5-4965-B639-3A33177E22D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{92C5D0DE-41C5-4965-B639-3A33177E22D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{92C5D0DE-41C5-4965-B639-3A33177E22D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A01A4D4C-84E2-4A0A-8B44-2572C79D4BE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A01A4D4C-84E2-4A0A-8B44-2572C79D4BE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A01A4D4C-84E2-4A0A-8B44-2572C79D4BE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A01A4D4C-84E2-4A0A-8B44-2572C79D4BE7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E1726F01-D771-407F-B24B-4B667DBE2AE9} = {76AD8111-8CBC-49C8-8FD5-9450ED0CA6AA}
+		{9209FBA7-F08D-4FC3-8528-18272217C9ED} = {06D03A3A-9C27-4473-B8B4-3477E35E28BB}
+		{92C5D0DE-41C5-4965-B639-3A33177E22D6} = {06D03A3A-9C27-4473-B8B4-3477E35E28BB}
+		{A01A4D4C-84E2-4A0A-8B44-2572C79D4BE7} = {76AD8111-8CBC-49C8-8FD5-9450ED0CA6AA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D4A3045A-5756-42AA-8131-EBB98EFF72B4}

@@ -8,4 +8,8 @@
     <PackageReference Include="CSESoftware.Repository" Version="2.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ATM.Persistence.Models\ATM.Persistence.Models.csproj" />
+  </ItemGroup>
+
 </Project>
