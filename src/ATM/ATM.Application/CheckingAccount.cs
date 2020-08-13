@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
 using ATM.Application.Repository;
+using AutoMapper;
 
 namespace ATM.Application
 {
-	public class CheckingAccount : Account
+	public class CheckingAccount : Account, IMapFrom<Persistence.Models.Account>
 	{
 		public CheckingAccount(IAtmRepository repository) : base(repository)
 		{
@@ -16,6 +17,11 @@ namespace ATM.Application
 				throw new Exception("Cannot withdraw more than balance");
 
 			return await base.Withdraw(amount, description);
+		}
+
+		public void Mapping(Profile profile)
+		{
+			profile.CreateMap<Account, CheckingAccount>();
 		}
 	}
 }
