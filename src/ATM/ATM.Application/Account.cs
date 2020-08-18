@@ -2,22 +2,24 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ATM.Application.Repository;
+using ATM.Application.Persistence;
 
 namespace ATM.Application
 {
 	public abstract class Account
 	{
 		internal List<Transaction> TransactionHistory { get; }
-		private readonly IAtmRepository _repository;
+		private readonly ITransactionRepository _repository;
 
-		protected Account(IAtmRepository repository)
+		protected Account(ITransactionRepository repository, ITransactionQueryBuilder queryBuilder)
 		{
-			TransactionHistory = new List<Transaction>();
 			_repository = repository;
+			TransactionHistory = queryBuilder.Where(x => x.AccountId.Equals(Id)).GetAll().Result.ToList();
 		}
 
 		public Guid Id { get; }
+		public Guid HolderId { get; }
+		public string Name { get; }
 
 		public double Balance
 		{
@@ -56,14 +58,7 @@ namespace ATM.Application
 
 			TransactionHistory.Add(transaction);
 
-			_repository.Create(new Persistence.Models.Transaction()
-			{
-				Id = transaction.Id,
-				AccountId = Id,
-				Amount = transaction.Amount,
-				Date = transaction.Date,
-				Description = transaction.Description
-			});
+			_repository.Create(transaction);
 
 			await _repository.SaveAsync();
 		}

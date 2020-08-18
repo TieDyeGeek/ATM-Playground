@@ -2,7 +2,7 @@
 using CSESoftware.Repository.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace ATM.Persistence
+namespace ATM.Persistence.Repository
 {
 	public class AtmDbContext : BaseDbContext
 	{

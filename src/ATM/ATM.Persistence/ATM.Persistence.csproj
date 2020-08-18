@@ -10,7 +10,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ATM.Application\ATM.Application.csproj" />
-    <ProjectReference Include="..\ATM.Persistence.Models\ATM.Persistence.Models.csproj" />
   </ItemGroup>
 
 </Project>

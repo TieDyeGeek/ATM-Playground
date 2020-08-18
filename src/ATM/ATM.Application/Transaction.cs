@@ -2,7 +2,7 @@
 
 namespace ATM.Application
 {
-	internal class Transaction
+	public class Transaction
 	{
 		public Transaction(Guid accountId, double amount, string description)
 		{

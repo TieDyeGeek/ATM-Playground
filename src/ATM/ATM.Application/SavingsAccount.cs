@@ -2,14 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ATM.Application.Repository;
-using AutoMapper;
+using ATM.Application.Persistence;
 
 namespace ATM.Application
 {
-	public class SavingsAccount : Account, IMapFrom<Account>
-	{
-		public SavingsAccount(IAtmRepository repository) : base(repository)
+	public class SavingsAccount : Account	{
+		public SavingsAccount(ITransactionRepository repository) : base(repository)
 		{
 		}
 
@@ -28,11 +26,6 @@ namespace ATM.Application
 		private List<Transaction> GetLast24HoursOfTransactions()
 		{
 			return TransactionHistory.Where(x => x.Date >= DateTime.UtcNow.AddDays(-1)).ToList();
-		}
-
-		public void Mapping(Profile profile)
-		{
-			profile.CreateMap<Account, SavingsAccount>();
 		}
 	}
 }
