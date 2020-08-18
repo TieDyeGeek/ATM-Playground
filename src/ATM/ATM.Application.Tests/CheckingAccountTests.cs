@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using ATM.Application.Tests.Helpers;
+using ATM.Persistence;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace ATM.Application.Tests
@@ -10,7 +11,8 @@ namespace ATM.Application.Tests
 	{
 		private CheckingAccount GetCheckingAccount()
 		{
-			return new CheckingAccount(DatabaseMock.GetProjectRepository(DatabaseMock.GetOptions()));
+			var options = DatabaseMock.GetOptions();
+			return new CheckingAccount(new TransactionRepository(options), new PersistenceQueryBuilder<ATM.Persistence.Models.Transaction,Transaction>(options, null));
 		}
 
 		[TestMethod]

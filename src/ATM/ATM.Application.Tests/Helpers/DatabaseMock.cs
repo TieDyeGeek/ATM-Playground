@@ -10,10 +10,5 @@ namespace ATM.Application.Tests.Helpers
 		{
 			return new DbContextOptionsBuilder<AtmDbContext>().UseInMemoryDatabase(Guid.NewGuid().ToString()).Options;
 		}
-
-		internal static IAtmRepository GetProjectRepository(DbContextOptions options)
-		{
-			return new AtmRepository(new AtmDbContext(options));
-		}
 	}
 }
