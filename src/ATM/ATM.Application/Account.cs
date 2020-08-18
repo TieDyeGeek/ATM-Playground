@@ -9,9 +9,9 @@ namespace ATM.Application
 	public abstract class Account
 	{
 		internal List<Transaction> TransactionHistory { get; }
-		private readonly ITransactionRepository _repository;
+		private readonly IRepository<Transaction, Guid> _repository;
 
-		protected Account(ITransactionRepository repository, ITransactionQueryBuilder queryBuilder)
+		protected Account(IRepository<Transaction, Guid> repository, IQueryBuilder<Transaction> queryBuilder)
 		{
 			_repository = repository;
 			TransactionHistory = queryBuilder.Where(x => x.AccountId.Equals(Id)).GetAll().Result.ToList();

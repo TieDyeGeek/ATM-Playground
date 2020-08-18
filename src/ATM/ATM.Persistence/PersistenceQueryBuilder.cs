@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
+using ATM.Application.Persistence;
 using ATM.Persistence.Repository;
 using AutoMapper;
 using CSESoftware.Core.Entity;
@@ -14,7 +15,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ATM.Persistence
 {
-	public class PersistenceQueryBuilder<TDataModel, TApplicationModel> where TDataModel : class, IEntity
+	public class PersistenceQueryBuilder<TDataModel, TApplicationModel> : IQueryBuilder<TApplicationModel> where TDataModel : class, IEntity
 	{
 		private readonly IMapper _mapper;
 		private readonly IReadOnlyRepository _repository;
@@ -26,43 +27,40 @@ namespace ATM.Persistence
 			_query = new QueryBuilder<TDataModel>();
 		}
 
-		public PersistenceQueryBuilder<TDataModel, TApplicationModel> Where(Expression<Func<TDataModel, bool>> expression)
+		public IQueryBuilder<TApplicationModel> Where(Expression<Func<TApplicationModel, bool>> expression)
 		{
-			_query.Where(expression);
+			var dataExpression = _mapper.Map<Expression<Func<TDataModel, bool>>>(expression);
+			_query.Where(dataExpression);
 			return this;
 		}
 
-		public PersistenceQueryBuilder<TDataModel, TApplicationModel> OrderBy(Func<IQueryable<TDataModel>, IOrderedQueryable<TDataModel>> order)
+		public IQueryBuilder<TApplicationModel> OrderBy(Func<IQueryable<TApplicationModel>, IOrderedQueryable<TApplicationModel>> order)
 		{
-			_query.OrderBy(order);
+			var dataOrder = _mapper.Map<Func<IQueryable<TDataModel>, IOrderedQueryable<TDataModel>>>(order);
+			_query.OrderBy(dataOrder);
 			return this;
 		}
 
-		public PersistenceQueryBuilder<TDataModel, TApplicationModel> Include(IEnumerable<Expression<Func<TDataModel, object>>> includes)
+		public IQueryBuilder<TApplicationModel> Include(Expression<Func<TApplicationModel, object>> include)
 		{
-			_query.Include(includes);
+			var dataInclude = _mapper.Map<Expression<Func<TDataModel, object>>>(include);
+			_query.Include(dataInclude);
 			return this;
 		}
 
-		public PersistenceQueryBuilder<TDataModel, TApplicationModel> Include(Expression<Func<TDataModel, object>> include)
-		{
-			_query.Include(include);
-			return this;
-		}
-
-		public PersistenceQueryBuilder<TDataModel, TApplicationModel> Skip(int? skip)
+		public IQueryBuilder<TApplicationModel> Skip(int? skip)
 		{
 			_query.Skip(skip);
 			return this;
 		}
 
-		public PersistenceQueryBuilder<TDataModel, TApplicationModel> Take(int? take)
+		public IQueryBuilder<TApplicationModel> Take(int? take)
 		{
 			_query.Take(take);
 			return this;
 		}
 
-		public PersistenceQueryBuilder<TDataModel, TApplicationModel> WithThisCancellationTokenToken(CancellationToken token)
+		public IQueryBuilder<TApplicationModel> WithThisCancellationTokenToken(CancellationToken token)
 		{
 			_query.WithThisCancellationTokenToken(token);
 			return this;

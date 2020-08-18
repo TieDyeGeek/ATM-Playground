@@ -6,7 +6,7 @@ namespace ATM.Application
 {
 	public class CheckingAccount : Account
 	{
-		public CheckingAccount(ITransactionRepository repository) : base(repository)
+		public CheckingAccount(IRepository<Transaction, Guid> repository, IQueryBuilder<Transaction> queryBuilder) : base(repository, queryBuilder)
 		{
 		}
 

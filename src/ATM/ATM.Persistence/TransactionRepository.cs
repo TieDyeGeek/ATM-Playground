@@ -1,10 +1,10 @@
-﻿using ATM.Application.Persistence;
-using ATM.Persistence.Models;
+﻿using ATM.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace ATM.Persistence
 {
-	public class TransactionRepository : PersistenceRepository<Transaction, Application.Transaction>, ITransactionRepository
+	public class TransactionRepository :
+		PersistenceRepository<Transaction, Application.Transaction>
 	{
 		public TransactionRepository(DbContextOptions contextOptions) : base(contextOptions)
 		{

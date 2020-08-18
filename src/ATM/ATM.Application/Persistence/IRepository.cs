@@ -3,10 +3,10 @@ using System.Threading.Tasks;
 
 namespace ATM.Application.Persistence
 {
-	public interface ITransactionRepository
+	public interface IRepository<in T, in TId>
 	{
-		void Create(Application.Transaction entity);
-		void Delete(Guid id);
+		void Create(T entity);
+		void Delete(TId id);
 		Task SaveAsync();
 	}
 }

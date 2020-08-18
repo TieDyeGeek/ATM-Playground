@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using ATM.Application.Persistence;
 using ATM.Persistence.Repository;
 using CSESoftware.Core.Entity;
 using CSESoftware.Repository;
@@ -8,7 +9,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ATM.Persistence
 {
-	public class PersistenceRepository<TDataModel, TApplicationModel> where TDataModel : class, IEntityWithId<Guid>
+	public class PersistenceRepository<TDataModel, TApplicationModel>
+		: IRepository<TApplicationModel, Guid>
+		where TDataModel : class, IEntityWithId<Guid>
 	{
 		protected readonly IRepository Repository;
 

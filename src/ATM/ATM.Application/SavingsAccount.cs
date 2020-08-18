@@ -7,7 +7,7 @@ using ATM.Application.Persistence;
 namespace ATM.Application
 {
 	public class SavingsAccount : Account	{
-		public SavingsAccount(ITransactionRepository repository) : base(repository)
+		public SavingsAccount(IRepository<Transaction, Guid> repository, IQueryBuilder<Transaction> queryBuilder) : base(repository, queryBuilder)
 		{
 		}
 
